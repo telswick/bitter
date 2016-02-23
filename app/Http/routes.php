@@ -32,7 +32,7 @@ Route::group(['middleware' => ['web']], function () {
     // Adding routes for posts
     Route::resource('posts', 'PostsController', [
     	'only' => ['index', 'show']
-    ])
+    ]);
 
 
 });
@@ -46,3 +46,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('posts', 'PostsController', [
         'except' => ['create', 'edit']
     ]);
+
+});
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+});
