@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +25,24 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', function () {
+    return view('welcome');
+	});
+
+    // Adding routes for posts
+    Route::resource('posts', 'PostsController', [
+    	'only' => ['index', 'show']
+    ])
+
+
 });
+
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+
+    Route::get('/home', 'HomeController@index');
+
+    // Adding routes for posts
+    Route::resource('posts', 'PostsController', [
+        'except' => ['create', 'edit']
+    ]);
